@@ -1,0 +1,52 @@
+{
+	"name": "profiles",
+	"engine": "innodb",
+	"charset": "utf8",
+	"fields": {
+		"id": {
+			"type": "string",
+			"required": true,
+			"searchable": true,
+			"filter": {
+				"regex": "~^[0-9]{20}[a-f0-9]{44}$~",
+				"minlen": 64,
+				"maxlen": 64
+			},
+			"prepare": {
+				"lowercase": true
+			}
+		},
+		"username": {
+			"type": "string",
+			"searchable": true,
+			"filter": {
+				"regex": "~^[a-z0-9\\-]+$~",
+				"minlen": 3,
+				"maxlen": 32
+			},
+			"prepare": {
+				"lowercase": true
+			}
+		},
+		"name": {
+			"type": "string",
+			"filter": {
+				"maxlen": 128
+			}
+		},
+		"bio": {
+			"type": "string"
+		},
+		"avatar": {
+			"type": "string"
+		},
+		"background": {
+			"type": "string"
+		}
+	},
+	"indexes": {
+		"primary": "id",
+		"username": "username"
+	},
+	"limit": 10
+}

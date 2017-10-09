@@ -1,0 +1,52 @@
+# - Assign: create a new member entry for this collaborator
+$email_code_salt = $__string['random'](16, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
+$email_code = $__string['random'](24, 'abcdefghijklmnopqrstuvwxyz0123456789');
+$password_code_salt = $__string['random'](16, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
+$password_code = $__string['random'](24, 'abcdefghijklmnopqrstuvwxyz0123456789');
+list($error, $member, $query) = $membersModel['new'](array(
+	'id' => $__uuid['generate']($app['req']['ip'], getmyinode()),
+	'email' => $collaborator_email,
+	'email_code_salt' => $email_code_salt,
+	'email_code_hash' => $email_code_salt.$email_code,
+	'email_code_datetime' => date('Y-m-d H:i:s'),
+	'password' => $__string['random'](48, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'),
+	'password_code_salt' => $password_code_salt,
+	'password_code_hash' => $password_code_salt.$password_code,
+	'password_code_datetime' => date('Y-m-d H:i:s'),
+	'invited' => date('Y-m-d H:i:s'),
+	'activated' => false
+));
+# - Checks:
+if (!(!!$error)) {
+	# - Action: insert member into database
+	list($error, $result) = $db['insert']('default', $query['q'], $query['p']);
+	# - Checks:
+	if (!(!!$error)) {
+		# - Assign: create a new profile entry for this collaborator
+		list($error, $profile, $query) = $profilesModel['new'](array(
+			'id' => $member['getAttr']('id')
+		));
+		# - Checks:
+		if (!(!!$error)) {
+			# - Action: insert profile into database
+			list($error, $result) = $db['insert']('default', $query['q'], $query['p']);
+			# - Checks:
+			if (!(!!$error)) {
+				# - Action: send invitation email
+				$link = $_config['links']['wwwWelcome'].'?_xre='.$__uuid['pack']($member['getAttr']('id')).$email_code.'&_xrp='.$__uuid['pack']($member['getAttr']('id')).$password_code;
+				list($error, $result) = $_mail($_config, $app, array(
+					'name' => $_config['siteName'],
+					'from' => $_config['mail']['templates']['welcome']['address'],
+					'to' => $member['getAttr']('email'),
+					'subject' => 'Invitation to '.$_config['siteName'].' from <'.$me['getAttr']('email').'>',
+					'text' => '<'.$me['getAttr']('email').'> sent you an invitation to join.'
+						."\r\n\r\n".'Please click the following link to create your account:'
+						."\r\n".$link
+						."\r\n\r\n".'If clicking the link does not work, please copy and paste it into the browser window address bar.'
+						."\r\n\r\n".'Thank you,'
+						."\r\n\r\n".'- '.$_config['mail']['templates']['welcome']['signature']
+				));
+			}
+		}
+	}
+}

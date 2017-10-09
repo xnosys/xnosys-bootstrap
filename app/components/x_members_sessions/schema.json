@@ -1,0 +1,39 @@
+{
+	"name": "x_members_sessions",
+	"engine": "innodb",
+	"charset": "utf8",
+	"fields": {
+		"member_id": {
+			"type": "string",
+			"required": true,
+			"filter": {
+				"regex": "~^[0-9]{20}[a-f0-9]{44}$~",
+				"minlen": 64,
+				"maxlen": 64
+			},
+			"prepare": {
+				"lowercase": true
+			}
+		},
+		"session_id": {
+			"type": "string",
+			"required": true,
+			"filter": {
+				"regex": "~^[0-9]{20}[a-f0-9]{44}$~",
+				"minlen": 64,
+				"maxlen": 64
+			},
+			"prepare": {
+				"lowercase": true
+			}
+		},
+		"status": {
+			"type": "boolean"
+		}
+	},
+	"indexes": {
+		"primary": ["member_id","session_id"],
+		"session_id": "session_id"
+	},
+	"limit": 10
+}

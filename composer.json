@@ -1,0 +1,62 @@
+{
+    "name": "xnosys/xnosys-bootstrap",
+    "description": "JSON API Framework for PHP, with example configuration",
+    "type": "project",
+    "require": {
+        "php": "^7.1.0",
+        "xnosys/xnosys-database": "^1.0.0",
+        "xnosys/xnosys-fs": "^1.0.0",
+        "xnosys/xnosys-log": "^1.0.0",
+        "xnosys/xnosys-mail": "^1.0.0",
+        "xnosys/xnosys-model-slim": "^1.0.0",
+        "xnosys/xnosys-router": "^1.0.0",
+        "xnosys/xnosys-string": "^1.0.0",
+        "xnosys/xnosys-uuid": "^1.0.0",
+        "xnosys/xnosys-xnostycs": "^1.0.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Xnosys",
+            "homepage": "https://xnosys.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/xnosys/xnosys-database.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/xnosys/xnosys-fs.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/xnosys/xnosys-log.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/xnosys/xnosys-mail.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/xnosys/xnosys-model-slim.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/xnosys/xnosys-router.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/xnosys/xnosys-string.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/xnosys/xnosys-uuid.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/xnosys/xnosys-xnostycs.git"
+        }
+    ]
+}

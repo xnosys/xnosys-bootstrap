@@ -1,0 +1,104 @@
+{
+	"name": "members",
+	"engine": "innodb",
+	"charset": "utf8",
+	"fields": {
+		"id": {
+			"type": "string",
+			"required": true,
+			"searchable": true,
+			"filter": {
+				"regex": "~^[0-9]{20}[a-f0-9]{44}$~",
+				"minlen": 64,
+				"maxlen": 64
+			},
+			"prepare": {
+				"lowercase": true
+			}
+		},
+		"email": {
+			"type": "string",
+			"required": true,
+			"hidden": true,
+			"filter": {
+				"type": "email"
+			}
+		},
+		"email_code_salt": {
+			"type": "string",
+			"hidden": true,
+			"filter": {
+				"minlen": 16,
+				"maxlen": 16
+			}
+		},
+		"email_code_hash": {
+			"type": "string",
+			"hidden": true,
+			"filter": {
+				"type": "hash"
+			}
+		},
+		"email_code_datetime": {
+			"type": "datetime",
+			"hidden": true
+		},
+		"email_confirmed": {
+			"type": "boolean"
+		},
+		"password": {
+			"type": "string",
+			"required": true,
+			"hidden": true,
+			"filter": {
+				"type": "password",
+				"minlen": 8
+			}
+		},
+		"password_code_salt": {
+			"type": "string",
+			"hidden": true,
+			"filter": {
+				"minlen": 16,
+				"maxlen": 16
+			}
+		},
+		"password_code_hash": {
+			"type": "string",
+			"hidden": true,
+			"filter": {
+				"type": "hash"
+			}
+		},
+		"password_code_datetime": {
+			"type": "datetime",
+			"hidden": true
+		},
+		"role": {
+			"type": "string",
+			"default": "m",
+			"filter": {
+				"minlen": 1,
+				"maxlen": 1,
+				"values": ["m","a"]
+			},
+			"prepare": {
+				"lowercase": true
+			}
+		},
+		"invited": {
+			"type": "datetime"
+		},
+		"activated": {
+			"type": "boolean"
+		},
+		"status": {
+			"type": "boolean"
+		}
+	},
+	"indexes": {
+		"primary": "id",
+		"email": "email"
+	},
+	"limit": 10
+}

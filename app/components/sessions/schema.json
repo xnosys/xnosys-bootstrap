@@ -1,0 +1,75 @@
+{
+	"name": "sessions",
+	"engine": "innodb",
+	"charset": "utf8",
+	"fields": {
+		"id": {
+			"type": "string",
+			"required": true,
+			"searchable": true,
+			"filter": {
+				"regex": "~^[0-9]{20}[a-f0-9]{44}$~",
+				"minlen": 64,
+				"maxlen": 64
+			},
+			"prepare": {
+				"lowercase": true
+			}
+		},
+		"name": {
+			"type": "string",
+			"searchable": true,
+			"filter": {
+				"regex": "~^[a-z0-9\\-_]+$~",
+				"maxlen": 32
+			},
+			"prepare": {
+				"lowercase": true
+			}
+		},
+		"code_salt": {
+			"type": "string",
+			"required": true,
+			"hidden": true,
+			"filter": {
+				"minlen": 16,
+				"maxlen": 16
+			}
+		},
+		"code_hash": {
+			"type": "string",
+			"required": true,
+			"hidden": true,
+			"filter": {
+				"type": "hash"
+			}
+		},
+		"ip": {
+			"type": "string",
+			"hidden": true,
+			"filter": {
+				"type": "hash"
+			}
+		},
+		"agent": {
+			"type": "string",
+			"hidden": true,
+			"filter": {
+				"type": "hash"
+			}
+		},
+		"used": {
+			"type": "number",
+			"filter": {
+				"unsigned": true
+			},
+			"prepare": {
+				"integer": true
+			}
+		}
+	},
+	"indexes": {
+		"primary": "id"
+	},
+	"limit": 10
+}
